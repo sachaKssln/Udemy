@@ -8,27 +8,12 @@ $num=$_GET['num'];
     $nb=$req->execute();
 
 
-?>
-
-<main role="main" class="pt-3" style="margin-top: 4rem">
-<div class="container mt-3">
-    <?php
-        $message = $action == "Modifier" ? "modifiée" : "ajoutée";
         if ($nb=1) {
-            echo '<div class="alert alert-success col-md-3" role="alert">
-            La nationalité a bien été suprimée
-            </div>';
+            $_SESSION['message']=["success"=>"La nationalité a bien été supprimée"];
         }
         else {
-            echo '<div class="alert alert-danger" role="alert">
-            La nationalité n\'a pas bien été suprimée !
-            </div>';
+            $_SESSION['message']=["danger"=>'La nationalité n\'a pas bien été suprimée !'];
         }
+        header('location: listeNationalites.php');
+        exit();
     ?>
-    <a href="listeNationalites.php" class='btn btn-primary'>Revenir à la liste</a>
-</div>
-</main>
-
-<?php
-include 'footer.php';
-?>
