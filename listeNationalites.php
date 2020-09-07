@@ -1,10 +1,31 @@
 <?php
 include 'header.php';
 include 'connexionPdo.php';
-$req=$monPdo ->prepare('select n.num, n.libelle as "libNation", c.libelle as "libContinent" from nationalite n, continent c where n.numContinent=c.num');
+
+$libelle="";
+$continentSel="tous";
+
+$texteReq = 'select n.num, n.libelle as "libNation", c.libelle as "libContinent" from nationalite n, continent c where n.numContinent=c.num';
+if (!empty($_GET)) {
+  $libelle=$_GET['libelle'];
+  $continentSel=$_GET['continent'];
+  if ($libelle != "") {
+    $texteReq .= " and n.libelle like '%".$libelle."%'";
+  }
+  if ($_GET['continent'] != "Tous") {
+    $continentSel .= " and c.num =".$continentSel;
+  }
+}
+$req=$monPdo ->prepare($texteReq);
 $req->setFetchMode(PDO::FETCH_OBJ);
 $req->execute();
 $lesNationalites=$req->fetchAll();
+
+$reqContinent=$monPdo ->prepare('select * from continent');
+$reqContinent->setFetchMode(PDO::FETCH_OBJ);
+$reqContinent->execute();
+$lesContinents=$reqContinent->fetchAll();
+
 if (!empty($_SESSION['message'])) {
   $mesMessages=$_SESSION['message'];
   foreach ($mesMessages as $key => $message) {
@@ -32,6 +53,27 @@ if (!empty($_SESSION['message'])) {
 </div>
 <div class="col-3"><a href="formNationalite.php?action=Ajouter" class='btn btn-success'><i class="fas fa-plus-circle"></i> Créer une nationalité</a></div>
 </div>
+  <form action="" method="get" class="border border-primary rounded p-3">
+    <div class="row">
+      <div class="col">
+      <input type="text" placeholder="Saisir le libellé" name="libelle" id="libelle" class="form-control" value="<?php echo $libelle ?>">
+      </div>
+      <div class="col">
+      <select name="continent" class="form-control">
+        <?php
+            echo "<option value='tous'>Tous les continents</option>";
+            foreach ($lesContinents as $continent) {
+                $selection=$continent->num == $continentSel ? 'selected' : '';
+                echo "<option value='".$continent->num."' ".$selection.">".$continent->libelle."</option>";
+            }
+            ?>
+        </select>
+      </div>
+      <div class="col">
+            <input type="submit" class="btn btn-success btn-block"></button>
+      </div>
+    </div>
+  </form>
 <table class="table table-striped table-dark table-hover" >
   <thead>
     <tr class="d-flex">
