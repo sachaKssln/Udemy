@@ -103,6 +103,12 @@ class Continent{
         return $nb;
     }
 
+    /**
+     * permet de supprimer un continent
+     *
+     * @param Continent $continent
+     * @return integer
+     */
     public static function delete(Continent $continent) :int
     {
         $req=MonPdo::getInstance()->prepare("delete from continent where num= :id");
