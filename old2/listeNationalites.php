@@ -44,14 +44,13 @@ if (!empty($_SESSION['message'])) {
 
 <main role="main" class="pt-3" style="margin-top: 4rem">
 <div class="container">
-<div class="row">
-<div class="col-9">
-
-    <h2>
+  <div class="row">
+    <div class="col-9">
+      <h2>
         liste nationalités
-    </h2>
-</div>
-<div class="col-3"><a href="formNationalite.php?action=Ajouter" class='btn btn-success'><i class="fas fa-plus-circle"></i> Créer une nationalité</a></div>
+      </h2>
+    </div>
+  <div class="col-3"><a href="formNationalite.php?action=Ajouter" class='btn btn-success'><i class="fas fa-plus-circle"></i> Créer une nationalité</a></div>
 </div>
   <form action="" method="get" class="border border-primary rounded p-3">
     <div class="row">
